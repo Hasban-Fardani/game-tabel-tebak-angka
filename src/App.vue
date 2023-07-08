@@ -1,9 +1,9 @@
 <template>
-  <NavBar/>
+  <NavBar @go-to="goToPage" :idx="currentPage"/>
   <main>
     <TutorialPage v-if="currentPage==0"/>
-    <MainPage v-else-if="currentPage==1"/>
-    <CommentPage v-else-if="currentPage==2"/>
+    <MainPage v-if="currentPage==1"/>
+    <CommentPage v-if="currentPage==2"/>
   </main>
 </template>
 
@@ -19,11 +19,15 @@ export default {
   data() {
     return {
       // 0: tutor, 1: main, 2: comment
-      currentPage: 0,
+      currentPage: 1,
     }
   },
+
   methods: {
-    
+    goToPage(idx){
+      // console.log(`goto ${idx} app.vue clicked`)
+      this.currentPage = idx;
+    }
   },
   components: {
     NavBar,
