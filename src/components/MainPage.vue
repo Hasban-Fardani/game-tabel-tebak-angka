@@ -68,6 +68,11 @@ export default {
     dataTable(){
       return this.allNums.filter((n) => n.bases.includes(this.allBasesR[this.step-1]))
     },
+    getNum(){
+      let hasil = 0;
+      this.bases.forEach((b) => hasil+=b);
+      return hasil
+    }
   },
 
   methods: {
