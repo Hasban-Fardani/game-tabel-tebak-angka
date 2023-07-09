@@ -1,24 +1,51 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
   <div class="flex flex-col items-center justify-center h-[calc(100vh-5rem)] bg-gray-800 text-white font-mono">
-    <div class="mb-1 w-1/2 flex-wrap text-center border p-3">
-      <p class="">
-        Pikirkan dalam kepala anda sebuah angka dari 1 sampai {{ getHigherNumByChunk() }}
-      </p>
-    </div>
-    <div class="flex gap-24 text-lg">
-      <button class="hover:bg-gray-500 p-2 m-1" :class="{ hidden: hidden_btn.left }"> &lt; </button>
-      <button class="hover:bg-gray-500 p-2 m-1" :class="{ hidden: hidden_btn.right }"> > </button>
+    <div class="mb-1 w-1/2 flex-wrap text-center">
+      <div v-if="step == 0">
+        <p class="border p-3">
+          Pikirkan dalam kepala anda sebuah angka dari 1 sampai {{ getHigherNumByChunk(chunk) }}
+        </p>
+        <div class="flex justify-center gap-24 text-lg" >
+          <button class="hover:bg-gray-500 p-2 m-1" :class="{ hidden: hidden_btn.left }" @click="backStep"> &lt; </button>
+          <button class="hover:bg-gray-500 p-2 m-1" :class="{ hidden: hidden_btn.right }" @click="nextStep"> > </button>
+        </div>
+      </div>
+      <div v-else-if="step < chunk + 2">        
+        <TableNums :idx="step-1" :data="dataTable" :base="allBasesR[step-1]" />
+        <div class="flex justify-center gap-24 text-lg">
+          <button @click="nextStep(allBasesR[step-1])"> Ada </button>
+          <button @click="nextStep(null)"> Tidak </button>
+        </div>
+      </div>
+      <div v-else>
+        {{ getNum }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import TableNums from './TableNums.vue';
+
 export default {
   name: 'MainPage',
+
+  components: {
+    TableNums,
+  },
+
   data() {
     return {
       chunk: 5,
+      bases: [],
+      allBases: [],
+      allBasesR: [],
+      allNums: [],
+
+      step: 0,
+      mx_step: 0,
+
       hidden_btn: {
         left: true,
         right: false,
@@ -26,16 +53,33 @@ export default {
     }
   },
 
+  mounted() {
+    this.mx_step = this.chunk + 2;
+
+    this.allBases = this.generateBasesByChunk(this.chunk)
+      .reverse();
+    this.allBasesR = this.generateBasesByChunk(this.chunk)
+      .sort((x, y) => x - y);
+    this.allNums = this.generateAllNums();
+  },
+  
+  // ada bug kalo pake ini
+  computed: {
+    dataTable(){
+      return this.allNums.filter((n) => n.bases.includes(this.allBasesR[this.step-1]))
+    },
+  },
+
   methods: {
-    getHigherNumByChunk() {
+    getHigherNumByChunk(chunk) {
       let s = 0;
-      for (let i = 0; i <= this.chunk; i++) {
+      for (let i = 0; i <= chunk; i++) {
         s += 2 ** i
       }
       return s
     },
 
-    generateBasesByNum(chunk) {
+    generateBasesByChunk(chunk) {
       let nums = [];
       for (let i = 0; i <= chunk; i++) {
         nums.push(2 ** i);
@@ -43,15 +87,16 @@ export default {
       return nums;
     },
 
-    getBasesOfNums(allBases, nums) {
+    getBasesOfNums(nums) {
       let bases = [];
-      allBases = allBases.sort().reverse()
-      allBases.forEach(b => {
-        if (b < nums) {
-          nums -= b;
-          bases.push(b);
-        }
-      });
+      this.allBases
+        .forEach(b => {
+          if (b <= nums) {
+            nums -= b;
+            bases.push(b);
+          }
+        });
+
       if (nums === 0) {
         return bases;
       }
@@ -59,9 +104,9 @@ export default {
       return -1
     },
 
-    generateAllNums(chunk) {
+    generateAllNums() {
       let nums = [];
-      const higher = this.getHigherNumByChunk(chunk)
+      const higher = this.getHigherNumByChunk(this.chunk)
       for (let i = higher; i > 0; i--) {
         const bases = this.getBasesOfNums(i);
         if (bases !== -1) {
@@ -70,6 +115,35 @@ export default {
       }
       return nums;
     },
+    
+    nextStep(data) {
+      if (data !== null){
+        this.bases.push(data)
+      }
+
+      this.hidden_btn.left = false;
+
+      const mx = this.chunk+2;
+      this.step += this.step < mx ? 1 : 0;
+
+      if (this.step >= mx) {
+        this.hidden_btn.right = true;
+      } else {
+        this.hidden_btn.right = false;
+      }
+    },
+
+    backStep() {
+      this.hidden_btn.right = false;
+
+      this.step -= this.step > 0 ? 1 : 0;
+      if (this.step == 0) {
+        this.hidden_btn.left = true;
+      } else {
+        this.hidden_btn.left = false;
+      }
+    }
+
   }
 }
 </script>
