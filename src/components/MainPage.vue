@@ -12,15 +12,18 @@
         </div>
       </div>
       <div v-else-if="step < chunk + 2">        
-        <TableNums :idx="step-1" :data="dataTable" :base="allBasesR[step-1]" />
+      <!-- <div v-else-if="step < chunk+1">         -->
+        <TableNums :idx="step-1" :data="dataTable" :base="allBasesR[step-1]" :all-bases="allBases" :selected="bases"/>
         <div class="flex justify-center gap-24 text-lg">
-          <button @click="nextStep(allBasesR[step-1])"> Ada </button>
-          <button @click="nextStep(null)"> Tidak </button>
+          <button @click="nextStep(allBasesR[step-1])" class="my-3"> Ada </button>
+          <button @click="nextStep(null)" class="my-3"> Tidak </button>
         </div>
       </div>
       <div v-else>
-        {{ getNum }}
-      </div>
+        <h1>Angka yang anda pikirkan adalah:</h1>
+        {{ result }}
+      </div>  
+      
     </div>
   </div>
 </template>
@@ -42,6 +45,7 @@ export default {
       allBases: [],
       allBasesR: [],
       allNums: [],
+      result: 0,
 
       step: 0,
       mx_step: 0,
@@ -68,11 +72,7 @@ export default {
     dataTable(){
       return this.allNums.filter((n) => n.bases.includes(this.allBasesR[this.step-1]))
     },
-    getNum(){
-      let hasil = 0;
-      this.bases.forEach((b) => hasil+=b);
-      return hasil
-    }
+    
   },
 
   methods: {
@@ -122,20 +122,23 @@ export default {
     },
     
     nextStep(data) {
-      if (data !== null){
-        this.bases.push(data)
+      if (data !== null && typeof data === 'number'){
+        this.bases.push(data);
       }
 
       this.hidden_btn.left = false;
 
       const mx = this.chunk+2;
-      this.step += this.step < mx ? 1 : 0;
 
+      this.step += this.step < mx ? 1 : 0;
       if (this.step >= mx) {
         this.hidden_btn.right = true;
+        this.result = this.getNum();
+        console.log("jalan")
       } else {
         this.hidden_btn.right = false;
       }
+      
     },
 
     backStep() {
@@ -147,8 +150,15 @@ export default {
       } else {
         this.hidden_btn.left = false;
       }
-    }
+    },
 
+    getNum(){
+      let hasil = 0;
+      this.bases.forEach((b) => {
+        hasil+=b;
+      });
+      return hasil;
+    }
   }
 }
 </script>

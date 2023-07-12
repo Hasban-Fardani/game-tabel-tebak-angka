@@ -1,10 +1,10 @@
 <template>
   <div class="container text-white bg-gray-800">
-    <!-- {{ data.filter((n)=>n.bases.includes(base)) }} -->
-    <h1 class="mb-5 font-bold text-xl">Tabel {{ idx + 1 }}</h1>
+    <!-- <h1 class="mb-5 font-bold text-sm">Tabel {{ idx + 1 }}</h1> -->
+    <h1 class="mb-5 font-bold text-sm">Apakah angka yang anda pikirkan ada di bawah ini?</h1>
     <div class="flex justify-center">
-      <div class="flex flex-wrap justify-center mb-10 w-3/4 max-h-[70%]">
-        <div v-for="n in data" :key="n.num" class="border p-7">
+      <div class="grid grid-cols-4">
+        <div v-for="n in data" :key="n.num" class="border p-3">
           {{ n.num }}
         </div>
       </div>
@@ -17,9 +17,17 @@
 export default {
   name: 'TableNums',
   props: {  // (parameter)
-    data: Array,  // (nama: tipeData)
-    base: Number,
     idx: Number,
+    data: Array,
+    base: Number,
+    allBases: Array,
+    selected: Array,
   },
+
+  methods: {
+    getPercentOpacity(allBase, selected) {
+      return allBase.length / selected.length 
+    } 
+  }
 }
 </script>
