@@ -1,6 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
-  <div class="flex flex-col items-center justify-center h-[calc(100vh-5rem)] bg-gray-800 text-white font-mono">
+  <div class="flex flex-col items-center justify-center h-[calc(100vh-5rem)] text-white font-mono">
     <div class="mb-1 w-1/2 flex-wrap text-center">
       <div v-if="step == 0">
         <p class="border p-3">

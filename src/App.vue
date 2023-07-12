@@ -1,10 +1,12 @@
 <template>
-  <NavBar @go-to="goToPage" :idx="currentPage"/>
-  <main>
-    <TutorialPage v-if="currentPage==0"/>
-    <MainPage v-if="currentPage==1"/>
-    <CommentPage v-if="currentPage==2"/>
-  </main>
+  <div class="bg-gray-800">
+    <NavBar @go-to="goToPage" :idx="currentPage" class="mb-1"/>
+    <main>
+      <TutorialPage v-if="currentPage==0"/>
+      <MainPage v-if="currentPage==1"/>
+      <CommentPage v-if="currentPage==2"/>
+    </main>
+  </div>
 </template>
 
 <script>

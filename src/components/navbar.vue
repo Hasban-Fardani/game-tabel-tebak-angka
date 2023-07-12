@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center gap-4 text-center p-5 bg-gray-800 text-white">
+  <div class="flex justify-center gap-4 text-center p-3 text-white">
     <button class="p-2 rounded-lg" :class="{active: idx==0}" @click="$emit('go-to', 0)">Tutorial</button>
     <button class="p-2 rounded-lg" :class="{active: idx==1}" @click="$emit('go-to', 1)">Main</button>
     <button class="p-2 rounded-lg" :class="{active: idx==2}" @click="$emit('go-to', 2)">Comment</button>
