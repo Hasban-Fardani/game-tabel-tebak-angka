@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-800">
+  <div >
     <NavBar @go-to="goToPage" :idx="currentPage" class="mb-1"/>
     <main>
       <TutorialPage v-if="currentPage==0"/>

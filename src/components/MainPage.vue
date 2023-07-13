@@ -23,7 +23,6 @@
         <h1>Angka yang anda pikirkan adalah:</h1>
         {{ result }}
       </div>  
-      
     </div>
   </div>
 </template>
@@ -40,7 +39,7 @@ export default {
 
   data() {
     return {
-      chunk: 5,
+      chunk: 6,
       bases: [],
       allBases: [],
       allBasesR: [],
@@ -67,7 +66,7 @@ export default {
     this.allNums = this.generateAllNums();
   },
   
-  // ada bug kalo pake ini
+  // 
   computed: {
     dataTable(){
       return this.allNums.filter((n) => n.bases.includes(this.allBasesR[this.step-1]))
