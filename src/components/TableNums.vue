@@ -26,8 +26,7 @@ export default {
   },
 
   mounted() {
-    console.log(Math.floor( 2 ** (this.allBases.length-1) ** 0.5 ));
-    console.log();
+    
   },
 
   data() {

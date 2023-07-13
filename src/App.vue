@@ -1,6 +1,6 @@
 <template>
-  <div >
-    <NavBar @go-to="goToPage" :idx="currentPage" class="mb-1"/>
+  <div class="overflow-x-auto">
+    <NavBar @go-to="goToPage" :idx="currentPage"/>
     <main>
       <TutorialPage v-if="currentPage==0"/>
       <MainPage v-if="currentPage==1"/>

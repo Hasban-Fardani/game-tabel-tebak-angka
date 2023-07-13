@@ -1,7 +1,7 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
   <div class="flex flex-col items-center justify-center h-[calc(100vh-5rem)] text-white font-mono">
-    <div class="mb-1 w-1/2 flex-wrap text-center">
+    <div class="mb-1 w-1/2 sm:w-2/3 flex-wrap text-center">
       <div v-if="step == 0">
         <p class="border p-3">
           Pikirkan dalam kepala anda sebuah angka dari 1 sampai {{ getHigherNumByChunk(chunk) }}
@@ -11,12 +11,12 @@
           <button class="hover:bg-gray-500 p-2 m-1" :class="{ hidden: hidden_btn.right }" @click="nextStep"> > </button>
         </div>
       </div>
-      <div v-else-if="step < chunk + 2">        
+      <div v-else-if="step < chunk + 2" class="">        
       <!-- <div v-else-if="step < chunk+1">         -->
         <TableNums :idx="step-1" :data="dataTable" :base="allBasesR[step-1]" :all-bases="allBases" :selected="bases"/>
         <div class="flex justify-center gap-24 text-lg">
-          <button @click="nextStep(allBasesR[step-1])" class="my-3"> Ada </button>
-          <button @click="nextStep(null)" class="my-3"> Tidak </button>
+          <button @click="nextStep(allBasesR[step-1])" class="my-5 p-2"> Ada </button>
+          <button @click="nextStep(null)" class="my-5 p-2"> Tidak </button>
         </div>
       </div>
       <div v-else>
@@ -39,7 +39,7 @@ export default {
 
   data() {
     return {
-      chunk: 6,
+      chunk: 5,
       bases: [],
       allBases: [],
       allBasesR: [],
@@ -133,7 +133,6 @@ export default {
       if (this.step >= mx) {
         this.hidden_btn.right = true;
         this.result = this.getNum();
-        console.log("jalan")
       } else {
         this.hidden_btn.right = false;
       }
