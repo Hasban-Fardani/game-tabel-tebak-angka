@@ -25,17 +25,10 @@ export default {
     selected: Array,
   },
 
-  mounted() {
-    
-  },
-
   data() {
     return {
       cols: Math.floor( 2 ** (this.allBases.length-1) ** 0.5 ),
     }
   },
-  methods: {
-    
-  }
 }
 </script>

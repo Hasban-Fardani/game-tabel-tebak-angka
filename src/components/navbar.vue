@@ -1,27 +1,12 @@
 <template>
   <div class="flex justify-center gap-4 text-center p-3 text-white">
-    <button class="p-2 rounded-lg" :class="{active: idx==0}" @click="$emit('go-to', 0)">How it works?</button>
-    <button class="p-2 rounded-lg" :class="{active: idx==1}" @click="$emit('go-to', 1)">Main</button>
-    <button class="p-2 rounded-lg" :class="{active: idx==2}" @click="$emit('go-to', 2)">Comment</button>
+    <RouterLink to="/" class="py-2 px-4" :class="{ 'bg-gray-500': $route.path === '/' }">Main</RouterLink>
+    <RouterLink to="/how" class="py-2 px-4" :class="{ 'bg-gray-500': $route.path === '/how' }">How it works?</RouterLink>
   </div>
 </template>
 
 <script>
 export default {
   name: 'NavBar',
-  props: {
-    idx: Number,
-  },
-  data(){
-    return {
-      current: this.idx,
-    }
-  }
 }
 </script>
-
-<style> 
-.active {
-  background-color: rgb(151, 150, 150);
-}
-</style>
